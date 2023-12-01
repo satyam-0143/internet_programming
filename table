@@ -1,0 +1,43 @@
+<?php include 'connection.php'; ?>
+<a href="index.php">Home</a>
+<table border="1px" cellpadding="10px" cellspacing="10px">
+    <tr>
+        <th>Username</th>
+        <th>Address</th>
+        <th>Flavour</th>
+        <th>Weight</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th colspan="2">Actions</th>
+    </tr>
+    <?php
+    $query = "SELECT * FROM cakeorder";
+    $data = mysqli_query($con, $query);
+    $result = mysqli_num_rows($data);
+    if ($result) {
+        while ($row = mysqli_fetch_array($data)) {
+            ?>
+            <tr>
+                <td><?php echo $row['username']; ?></td>
+                <td><?php echo $row['address']; ?></td>
+                <td><?php echo $row['flavour']; ?></td>
+                <td><?php echo $row['weight']; ?></td>
+                <td><?php echo $row['date']; ?></td>
+                <td><?php echo $row['time']; ?></td>
+                <td><a href="update.php?id=<?php echo $row['id']; ?>">Edit</a></td>
+                <td><a onclick="return confirm('Are you sure, you want to delete?')" href="delete.php?id=<?php echo $row['id']; ?>">Delete</a></td>
+            </tr>
+            <?php
+        }
+    } else {
+        ?>
+        <tr>
+            <td colspan="8">No Records Found</td>
+        </tr>
+        <?php
+    }
+
+    // Close the database connection
+    mysqli_close($con);
+    ?>
+</table>
